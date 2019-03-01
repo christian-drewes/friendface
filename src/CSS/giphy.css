@@ -1,0 +1,35 @@
+.giphy {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.giphyButton {
+  background: #42b8dd;
+  /* this is a light blue */
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+
+.giphySubmit {
+  display: none;
+}
+
+.dropdown-content-giphy {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 20px;
+  max-height: 300px;
+  overflow: auto;
+  -webkit-box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+.giphy:hover .dropdown-content-giphy {
+  display: inline-block;
+}
+/*# sourceMappingURL=giphy.css.map */

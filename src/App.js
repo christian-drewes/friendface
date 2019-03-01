@@ -1,28 +1,71 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Header from './Header'
+import Footer from './Footer'
+import React from 'react';
+import Post from './post';
+import Giphy from './giphy';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+
+
+export default class App extends React.Component {
+  
+  state = {
+    value: [],
+    temp: "",
+    isLoggedOn: false,
+    username: "Unknown",
+    userpic: '',
+    listItems: []
   }
-}
 
-export default App;
+  handleChange = (e) =>{
+    this.setState({temp: e.target.value})
+  }
+  
+  handleSubmit = (e) =>{
+     this.setState({value: this.state.value.concat({status: this.state.temp, url:''}),
+                  temp: ''}, ()=> this.postMap());
+     e.preventDefault();
+
+  }
+
+  isLoggedIn = () =>{
+    this.setState({isLoggedOn: true})
+  }
+
+  handleUserPic = (profpic) =>{
+    this.setState({userpic: profpic})
+  }
+
+  postMap = () =>{
+    const listItems = this.state.value.map((content) => <Post key={content} status={content} 
+    userpic={this.state.userpic}
+    username = {this.state.username}
+  />);
+
+    this.setState({listItems: listItems})
+  }
+  
+	render() {
+
+		return (
+			<div className="App">
+				<Header loggedin={this.isLoggedIn}  userpic={this.handleUserPic} username={(val) => { this.setState({username: val})}}/>
+        {this.state.isLoggedOn ? 
+          <div className="Content">
+              <form className="statusForm" onSubmit={this.handleSubmit}>
+                <label className="statusFormLabel">
+                  <input className="statusInput" type="text" value={this.state.temp} onChange={this.handleChange} placeholder="What's on your mind?"/>
+                </label>
+                <input className="statusSubmit" type="submit" value="Submit" disabled={this.state.temp === ''} />
+                <Giphy giphyUrl={(val) => this.setState({value: this.state.value.concat({status: this.state.temp , giphyUrl: val})}, ()=>this.postMap())}/>
+              </form>
+          </div>
+          :
+          <div></div>
+        }
+        <h1>{this.state.listItems}</h1>
+				{/* <Footer /> */}
+			</div>
+		)
+	}
+}
